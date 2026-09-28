@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events - UniConnect</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .events-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .events-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .events-header h1 {
+            color: var(--primary-color);
+        }
+
+        .btn-create {
+            padding: 12px 25px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-create:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .create-event-form {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            display: none;
+        }
+
+        .create-event-form.active {
+            display: block;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .event-card {
+            background: var(--surface);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .event-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background-color: var(--border);
+        }
+
+        .event-content {
+            padding: 25px;
+        }
+
+        .event-date {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .event-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .event-description {
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .event-details {
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+
+        .event-details p {
+            margin-bottom: 8px;
+        }
+
+        .event-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+        }
+
+        .event-registrations {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .btn-register {
+            padding: 10px 25px;
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-register:hover {
+            background-color: #059669;
+        }
+
+        .btn-registered {
+            background-color: var(--secondary-color);
+        }
+
+        .no-events {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .success {
+            background-color: #dcfce7;
+            color: #16a34a;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 4px solid #16a34a;
+        }
+
+        @media (max-width: 768px) {
+            .events-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">UniConnect</a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="feed.html">Feed</a></li>
+                <li><a href="events.html" class="active">Events</a></li>
+                <li><a href="feedback.html">Feedback</a></li>
+                <li><a href="ideas.html">Ideas</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="logout.html" class="btn-login">Logout</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="events-container">
+        <div id="success" class="success" style="display: none;"></div>
+
+        <div class="events-header">
+            <h1>Upcoming Events</h1>
+            <button id="createEventBtn" class="btn-create" style="display: none;" onclick="toggleCreateForm()">+ Create Event</button>
+        </div>
+
+        <div class="create-event-form" id="createForm">
+            <h2>Create New Event</h2>
+            <form id="createEventForm">
+                <div class="form-group">
+                    <label for="title">Event Title *</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="eventDate">Date *</label>
+                        <input type="date" id="eventDate" name="eventDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="eventTime">Time *</label>
+                        <input type="time" id="eventTime" name="eventTime" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" name="location" placeholder="e.g., Student Center, Room 101">
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" placeholder="Describe the event..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-create">Create Event</button>
+            </form>
+        </div>
+
+        <div id="eventsContainer" class="events-grid"></div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (!currentUser) {
+            window.location.href = 'login.html';
+        }
+
+        // Show create button for admin
+        if (currentUser.isAdmin) {
+            document.getElementById('createEventBtn').style.display = 'block';
+        }
+
+        function loadEvents() {
+            const events = DB.getEvents();
+            const container = document.getElementById('eventsContainer');
+
+            if (events.length === 0) {
+                container.innerHTML = '<div class="no-events"><h2>No upcoming events</h2><p>Check back later for new events!</p></div>';
+                return;
+            }
+
+            container.innerHTML = events.map(event => {
+                const creator = DB.findUserById(event.createdBy);
+                const registrationCount = DB.getEventRegistrationCount(event.id);
+                const isRegistered = DB.isUserRegisteredForEvent(event.id, currentUser.id);
+
+                return `
+                    <div class="event-card">
+                        <div class="event-content">
+                            <span class="event-date">${new Date(event.eventDate).toLocaleDateString()}</span>
+                            <h2 class="event-title">${event.title}</h2>
+                            
+                            ${event.description ? `<p class="event-description">${event.description.replace(/\n/g, '<br>')}</p>` : ''}
+                            
+                            <div class="event-details">
+                                <p>🕐 ${event.eventTime}</p>
+                                ${event.location ? `<p>📍 ${event.location}</p>` : ''}
+                                <p>👤 Created by ${creator.firstName} ${creator.lastName}</p>
+                            </div>
+                            
+                            <div class="event-meta">
+                                <span class="event-registrations">${registrationCount} registered</span>
+                                <button class="btn-register ${isRegistered ? 'btn-registered' : ''}" onclick="toggleRegistration(${event.id})">
+                                    ${isRegistered ? '✓ Registered' : 'Register'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleCreateForm() {
+            document.getElementById('createForm').classList.toggle('active');
+        }
+
+        document.getElementById('createEventForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const title = document.getElementById('title').value.trim();
+            const eventDate = document.getElementById('eventDate').value;
+            const eventTime = document.getElementById('eventTime').value;
+            const location = document.getElementById('location').value.trim();
+            const description = document.getElementById('description').value.trim();
+
+            DB.createEvent({
+                title,
+                description,
+                eventDate,
+                eventTime,
+                location,
+                imagePath: '',
+                createdBy: currentUser.id
+            });
+
+            document.getElementById('success').textContent = 'Event created successfully!';
+            document.getElementById('success').style.display = 'block';
+            document.getElementById('createEventForm').reset();
+            document.getElementById('createForm').classList.remove('active');
+
+            loadEvents();
+        });
+
+        function toggleRegistration(eventId) {
+            DB.registerForEvent(eventId, currentUser.id);
+            loadEvents();
+        }
+
+        loadEvents();
+    </script>
+</body>
+</html>

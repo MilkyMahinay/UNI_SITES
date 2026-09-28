@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniConnect - University Community Platform</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">UniConnect</a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="feed.html">Feed</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="feedback.html">Feedback</a></li>
+                <li><a href="ideas.html">Ideas</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="login.html" class="btn-login" id="loginBtn">Login</a></li>
+                <li><a href="register.html" class="btn-register" id="registerBtn">Register</a></li>
+                <li><a href="logout.html" class="btn-login" id="logoutBtn" style="display: none;">Logout</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome to UniConnect</h1>
+            <p>Your university community platform. Discover events, share experiences, and make your campus better together.</p>
+            <div class="hero-buttons">
+                <a href="register.html" class="btn btn-primary" id="heroRegister">Get Started</a>
+                <a href="feed.html" class="btn btn-secondary" id="heroFeed">Explore Feed</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2>What You Can Do</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Student Feed</h3>
+                    <p>Share photos and experiences from university events and activities.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📅</div>
+                    <h3>Events</h3>
+                    <p>Discover and register for upcoming university events and activities.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3>Anonymous Feedback</h3>
+                    <p>Share concerns and suggestions anonymously to improve campus life.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💡</div>
+                    <h3>Campus Ideas</h3>
+                    <p>Submit and vote on ideas to make your university better.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 UniConnect. Built for students, by students.</p>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Check if user is logged in
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        
+        if (currentUser) {
+            document.getElementById('loginBtn').style.display = 'none';
+            document.getElementById('registerBtn').style.display = 'none';
+            document.getElementById('logoutBtn').style.display = 'block';
+            document.getElementById('heroRegister').textContent = 'Go to Feed';
+            document.getElementById('heroRegister').href = 'feed.html';
+        } else {
+            document.getElementById('logoutBtn').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feed - UniConnect</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .feed-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .create-post {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .create-post h2 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .btn-submit {
+            padding: 12px 30px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .post-card {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .post-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+            background-color: var(--border);
+        }
+
+        .post-user-info h3 {
+            margin: 0;
+            color: var(--text-primary);
+        }
+
+        .post-user-info span {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .post-image {
+            width: 100%;
+            max-height: 500px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            background-color: var(--border);
+        }
+
+        .post-caption {
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 20px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s;
+        }
+
+        .action-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .action-btn.liked {
+            color: var(--danger-color);
+        }
+
+        .comments-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .comment-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .comment-form input {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+
+        .comment-form input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .comment-form button {
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .comment {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: var(--background);
+            border-radius: 8px;
+        }
+
+        .comment-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            object-fit: cover;
+            background-color: var(--border);
+        }
+
+        .comment-content {
+            flex: 1;
+        }
+
+        .comment-author {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+        }
+
+        .comment-text {
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .comment-time {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+
+        .no-posts {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .error {
+            background-color: #fee2e2;
+            color: #dc2626;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 4px solid #dc2626;
+        }
+
+        .success {
+            background-color: #dcfce7;
+            color: #16a34a;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 4px solid #16a34a;
+        }
+
+        @media (max-width: 768px) {
+            .feed-container {
+                margin: 20px auto;
+            }
+
+            .create-post,
+            .post-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">UniConnect</a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="feed.html" class="active">Feed</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="feedback.html">Feedback</a></li>
+                <li><a href="ideas.html">Ideas</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="logout.html" class="btn-login">Logout</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="feed-container">
+        <div id="error" class="error" style="display: none;"></div>
+        <div id="success" class="success" style="display: none;"></div>
+
+        <!-- Create Post -->
+        <div class="create-post">
+            <h2>Create a Post</h2>
+            <form id="createPostForm">
+                <div class="form-group">
+                    <label for="caption">What's on your mind?</label>
+                    <textarea id="caption" name="caption" placeholder="Share your university experience..."></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Post</button>
+            </form>
+        </div>
+
+        <!-- Posts Feed -->
+        <div id="postsContainer"></div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Check if user is logged in
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (!currentUser) {
+            window.location.href = 'login.html';
+        }
+
+        // Load posts
+        function loadPosts() {
+            const posts = DB.getPosts();
+            const container = document.getElementById('postsContainer');
+
+            if (posts.length === 0) {
+                container.innerHTML = '<div class="no-posts"><h2>No posts yet</h2><p>Be the first to share something with the community!</p></div>';
+                return;
+            }
+
+            container.innerHTML = posts.map(post => {
+                const user = DB.findUserById(post.userId);
+                const likeCount = DB.getLikeCount(post.id);
+                const userLiked = DB.hasUserLikedPost(post.id, currentUser.id);
+                const comments = DB.getCommentsByPost(post.id);
+
+                return `
+                    <div class="post-card">
+                        <div class="post-header">
+                            <img src="images/${user.profilePicture}" alt="Profile" class="post-avatar" onerror="this.src='https://via.placeholder.com/50?text=User'">
+                            <div class="post-user-info">
+                                <h3>${user.firstName} ${user.lastName}</h3>
+                                <span>${new Date(post.createdAt).toLocaleString()}</span>
+                            </div>
+                        </div>
+
+                        ${post.caption ? `<p class="post-caption">${post.caption.replace(/\n/g, '<br>')}</p>` : ''}
+
+                        <div class="post-actions">
+                            <button class="action-btn ${userLiked ? 'liked' : ''}" onclick="toggleLike(${post.id})">
+                                ${userLiked ? '❤️' : '🤍'} ${likeCount} Likes
+                            </button>
+                            <button class="action-btn" onclick="toggleComments(${post.id})">
+                                💬 ${comments.length} Comments
+                            </button>
+                        </div>
+
+                        <div class="comments-section" id="comments-${post.id}" style="display: none;">
+                            <form class="comment-form" onsubmit="addComment(event, ${post.id})">
+                                <input type="text" name="comment_text" placeholder="Write a comment..." required>
+                                <button type="submit">Post</button>
+                            </form>
+
+                            ${comments.map(comment => {
+                                const commentUser = DB.findUserById(comment.userId);
+                                return `
+                                    <div class="comment">
+                                        <img src="images/${commentUser.profilePicture}" alt="Profile" class="comment-avatar" onerror="this.src='https://via.placeholder.com/35?text=User'">
+                                        <div class="comment-content">
+                                            <div class="comment-author">${commentUser.firstName} ${commentUser.lastName}</div>
+                                            <div class="comment-text">${comment.commentText}</div>
+                                            <div class="comment-time">${new Date(comment.createdAt).toLocaleString()}</div>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Create post
+        document.getElementById('createPostForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const caption = document.getElementById('caption').value.trim();
+
+            if (!caption) {
+                document.getElementById('error').textContent = 'Please add a caption.';
+                document.getElementById('error').style.display = 'block';
+                return;
+            }
+
+           DB.createPost({
+                userId: currentUser.id,
+                caption,
+                imagePath: ''
+            });
+
+            document.getElementById('success').textContent = 'Post created successfully!';
+            document.getElementById('success').style.display = 'block';
+            document.getElementById('error').style.display = 'none';
+            document.getElementById('caption').value = '';
+
+            loadPosts();
+        });
+
+        // Toggle like
+        function toggleLike(postId) {
+            DB.toggleLike(postId, currentUser.id);
+            loadPosts();
+        }
+
+        // Toggle comments
+        function toggleComments(postId) {
+            const commentsSection = document.getElementById('comments-' + postId);
+            commentsSection.style.display = commentsSection.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Add comment
+        function addComment(e, postId) {
+            e.preventDefault();
+            const commentText = e.target.comment_text.value.trim();
+
+            if (commentText) {
+                DB.createComment({
+                    userId: currentUser.id,
+                    postId,
+                    ideaId: null,
+                    commentText
+                });
+
+                document.getElementById('success').textContent = 'Comment added!';
+                document.getElementById('success').style.display = 'block';
+                loadPosts();
+
+                // Keep comments section open
+                setTimeout(() => {
+                    document.getElementById('comments-' + postId).style.display = 'block';
+                }, 100);
+            }
+        }
+
+        // Initial load
+        loadPosts();
+    </script>
+</body>
+</html>

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Ideas - UniConnect</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .ideas-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .ideas-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .ideas-header h1 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .ideas-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .idea-form {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+        }
+
+        .idea-form h2 {
+            margin-bottom: 25px;
+            color: var(--primary-color);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .form-group select,
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .ideas-grid {
+            display: grid;
+            gap: 30px;
+        }
+
+        .idea-card {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .idea-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .idea-header {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .idea-vote-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 60px;
+        }
+
+        .vote-btn {
+            width: 50px;
+            height: 50px;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .vote-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .vote-btn.voted {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .vote-count {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-top: 5px;
+        }
+
+        .idea-content {
+            flex: 1;
+        }
+
+        .idea-category {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .idea-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .idea-description {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .idea-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .idea-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            object-fit: cover;
+            background-color: var(--border);
+        }
+
+        .idea-author-info {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .idea-actions {
+            display: flex;
+            gap: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s;
+        }
+
+        .action-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .comments-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            display: none;
+        }
+
+        .comments-section.active {
+            display: block;
+        }
+
+        .comment-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .comment-form input {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+
+        .comment-form button {
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .comment {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: var(--background);
+            border-radius: 8px;
+        }
+
+        .comment-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            object-fit: cover;
+            background-color: var(--border);
+        }
+
+        .comment-content {
+            flex: 1;
+        }
+
+        .comment-author {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+        }
+
+        .comment-text {
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .comment-time {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+
+        .no-ideas {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .success {
+            background-color: #dcfce7;
+            color: #16a34a;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 4px solid #16a34a;
+        }
+
+        .error {
+            background-color: #fee2e2;
+            color: #dc2626;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 4px solid #dc2626;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">UniConnect</a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="feed.html">Feed</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="feedback.html">Feedback</a></li>
+                <li><a href="ideas.html" class="active">Ideas</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="logout.html" class="btn-login">Logout</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="ideas-container">
+        <div class="ideas-header">
+            <h1>Campus Ideas</h1>
+            <p>Share your creative ideas to improve university life. Vote for the best ideas!</p>
+        </div>
+
+        <div id="success" class="success" style="display: none;"></div>
+        <div id="error" class="error" style="display: none;"></div>
+
+        <div class="idea-form">
+            <h2>Submit an Idea</h2>
+            <form id="ideaForm">
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" name="category">
+                        <option value="">Select a category</option>
+                        <option value="facilities">Facilities</option>
+                        <option value="activities">Activities & Events</option>
+                        <option value="study">Study Areas</option>
+                        <option value="transport">Transportation</option>
+                        <option value="services">Student Services</option>
+                        <option value="technology">Technology</option>
+                        <option value="sustainability">Sustainability</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="title">Idea Title *</label>
+                    <input type="text" id="title" name="title" placeholder="Brief title for your idea" required minlength="5">
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Detailed Description *</label>
+                    <textarea id="description" name="description" placeholder="Describe your idea in detail..." required minlength="20"></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">Submit Idea</button>
+            </form>
+        </div>
+
+        <div id="ideasContainer" class="ideas-grid"></div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (!currentUser) {
+            window.location.href = 'login.html';
+        }
+
+        function loadIdeas() {
+            const ideas = DB.getIdeas().sort((a, b) => b.votes - a.votes);
+            const container = document.getElementById('ideasContainer');
+
+            if (ideas.length === 0) {
+                container.innerHTML = '<div class="no-ideas"><h2>No ideas yet</h2><p>Be the first to share an idea for improving our campus!</p></div>';
+                return;
+            }
+
+            container.innerHTML = ideas.map(idea => {
+                const author = DB.findUserById(idea.userId);
+                const hasVoted = DB.hasUserVotedForIdea(idea.id, currentUser.id);
+                const comments = DB.getCommentsByIdea(idea.id);
+
+                return `
+                    <div class="idea-card">
+                        <div class="idea-header">
+                            <div class="idea-vote-section">
+                                <button class="vote-btn ${hasVoted ? 'voted' : ''}" onclick="toggleVote(${idea.id})">
+                                    ${hasVoted ? '▼' : '▲'}
+                                </button>
+                                <span class="vote-count">${idea.votes}</span>
+                            </div>
+                            
+                            <div class="idea-content">
+                                ${idea.category ? `<span class="idea-category">${idea.category.charAt(0).toUpperCase() + idea.category.slice(1)}</span>` : ''}
+                                
+                                <h3 class="idea-title">${idea.title}</h3>
+                                <p class="idea-description">${idea.description.replace(/\n/g, '<br>')}</p>
+                                
+                                <div class="idea-author">
+                                    <img src="images/${author.profilePicture}" alt="Profile" class="idea-avatar" onerror="this.src='https://via.placeholder.com/35?text=User'">
+                                    <div class="idea-author-info">
+                                        ${author.firstName} ${author.lastName} • ${new Date(idea.createdAt).toLocaleDateString()}
+                                    </div>
+                                </div>
+                                
+                                <div class="idea-actions">
+                                    <button class="action-btn" onclick="toggleComments(${idea.id})">
+                                        💬 Comments
+                                    </button>
+                                </div>
+                                
+                                <div class="comments-section" id="idea-comments-${idea.id}">
+                                    <form class="comment-form" onsubmit="addComment(event, ${idea.id})">
+                                        <input type="text" name="comment_text" placeholder="Write a comment..." required>
+                                        <button type="submit">Post</button>
+                                    </form>
+
+                                    ${comments.map(comment => {
+                                        const commentUser = DB.findUserById(comment.userId);
+                                        return `
+                                            <div class="comment">
+                                                <img src="images/${commentUser.profilePicture}" alt="Profile" class="comment-avatar" onerror="this.src='https://via.placeholder.com/35?text=User'">
+                                                <div class="comment-content">
+                                                    <div class="comment-author">${commentUser.firstName} ${commentUser.lastName}</div>
+                                                    <div class="comment-text">${comment.commentText}</div>
+                                                    <div class="comment-time">${new Date(comment.createdAt).toLocaleString()}</div>
+                                                </div>
+                                            </div>
+                                        `;
+                                    }).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        document.getElementById('ideaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const title = document.getElementById('title').value.trim();
+            const description = document.getElementById('description').value.trim();
+            const category = document.getElementById('category').value;
+
+            if (title && description) {
+                DB.createIdea({
+                    userId: currentUser.id,
+                    title,
+                    description,
+                    category
+                });
+
+                document.getElementById('success').textContent = 'Idea submitted successfully!';
+                document.getElementById('success').style.display = 'block';
+                document.getElementById('error').style.display = 'none';
+                document.getElementById('ideaForm').reset();
+                loadIdeas();
+            }
+        });
+
+        function toggleVote(ideaId) {
+            DB.voteForIdea(ideaId, currentUser.id);
+            loadIdeas();
+        }
+
+        function toggleComments(ideaId) {
+            const commentsSection = document.getElementById('idea-comments-' + ideaId);
+            commentsSection.classList.toggle('active');
+        }
+
+        function addComment(e, ideaId) {
+            e.preventDefault();
+            const commentText = e.target.comment_text.value.trim();
+
+            if (commentText) {
+                DB.createComment({
+                    userId: currentUser.id,
+                    postId: null,
+                    ideaId,
+                    commentText
+                });
+
+                document.getElementById('success').textContent = 'Comment added!';
+                document.getElementById('success').style.display = 'block';
+                loadIdeas();
+
+                setTimeout(() => {
+                    document.getElementById('idea-comments-' + ideaId).classList.add('active');
+                }, 100);
+            }
+        }
+
+        loadIdeas();
+    </script>
+</body>
+</html>
