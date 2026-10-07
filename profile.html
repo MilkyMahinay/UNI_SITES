@@ -7,15 +7,15 @@
     <link rel="stylesheet" href="css/style.css">
     <style>
         .profile-container {
-            max-width: 1000px;
-            margin: 40px auto;
+            max-width: 935px;
+            margin: 30px auto;
             padding: 0 20px;
         }
 
         .profile-header {
             background: var(--surface);
-            border-radius: 12px;
-            padding: 40px;
+            border-radius: 8px;
+            padding: 30px;
             box-shadow: var(--shadow);
             margin-bottom: 30px;
             display: flex;
@@ -28,8 +28,9 @@
             height: 150px;
             border-radius: 50%;
             object-fit: cover;
-            border: 4px solid var(--primary-color);
+            border: 1px solid var(--border);
             background-color: var(--border);
+            margin-right: 30px;
         }
 
         .profile-info {
@@ -37,50 +38,69 @@
         }
 
         .profile-name {
-            font-size: 2rem;
-            margin-bottom: 10px;
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+            font-weight: 300;
+        }
+
+        .profile-username {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .profile-stat {
             color: var(--text-primary);
         }
 
-        .profile-details {
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-        }
-
-        .profile-details p {
-            margin-bottom: 5px;
+        .profile-stat strong {
+            font-weight: 600;
         }
 
         .profile-bio {
-            background: var(--background);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .profile-course {
+            color: var(--text-secondary);
+            margin-bottom: 5px;
         }
 
         .profile-interests {
             color: var(--primary-color);
-            font-weight: 500;
+            font-size: 0.95rem;
         }
 
         .btn-edit {
-            padding: 10px 20px;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 6px;
+            padding: 8px 16px;
+            background-color: var(--background);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            border-radius: 4px;
             cursor: pointer;
             font-weight: 600;
             transition: background-color 0.3s;
+            margin-top: 15px;
         }
 
         .btn-edit:hover {
-            background-color: var(--primary-dark);
+            background-color: var(--border);
         }
 
         .edit-form {
             background: var(--surface);
-            border-radius: 12px;
+            border-radius: 8px;
             padding: 30px;
             box-shadow: var(--shadow);
             margin-bottom: 30px;
@@ -106,46 +126,122 @@
             margin-bottom: 8px;
             font-weight: 500;
             color: var(--text-primary);
+            font-size: 0.9rem;
         }
 
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 12px;
-            border: 2px solid var(--border);
-            border-radius: 6px;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
             font-size: 1rem;
             font-family: inherit;
         }
 
         .form-group textarea {
             resize: vertical;
-            min-height: 100px;
+            min-height: 80px;
+        }
+
+        /* Profile Tabs */
+        .profile-tabs {
+            background: var(--surface);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            display: flex;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .profile-tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: all 0.3s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .profile-tab:hover {
+            color: var(--text-primary);
+        }
+
+        .profile-tab.active {
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--text-primary);
+        }
+
+        .profile-tab span {
+            margin-right: 5px;
         }
 
         .section-title {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             margin-bottom: 20px;
             color: var(--text-primary);
+            font-weight: 600;
         }
 
         .posts-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
         }
 
         .post-card {
             background: var(--surface);
-            border-radius: 12px;
+            border-radius: 4px;
             overflow: hidden;
             box-shadow: var(--shadow);
-            transition: transform 0.3s;
+            aspect-ratio: 1;
+            cursor: pointer;
+            position: relative;
         }
 
         .post-card:hover {
-            transform: translateY(-5px);
+            transform: scale(1.02);
+            transition: transform 0.2s;
+        }
+
+        .post-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .post-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .post-card:hover .post-overlay {
+            opacity: 1;
+        }
+
+        .post-stats-overlay {
+            color: white;
+            font-weight: 600;
+            display: flex;
+            gap: 20px;
+        }
+
+        .post-stat-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .post-content {
@@ -155,19 +251,20 @@
         .post-caption {
             color: var(--text-primary);
             margin-bottom: 10px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
+            line-height: 1.4;
         }
 
         .post-meta {
             color: var(--text-secondary);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             display: flex;
             justify-content: space-between;
         }
 
         .no-posts {
             text-align: center;
-            padding: 40px;
+            padding: 60px 20px;
             color: var(--text-secondary);
         }
 
@@ -185,6 +282,19 @@
                 flex-direction: column;
                 align-items: center;
                 text-align: center;
+                padding: 20px;
+            }
+
+            .profile-picture {
+                margin-right: 0;
+                margin-bottom: 20px;
+                width: 120px;
+                height: 120px;
+            }
+
+            .profile-stats {
+                justify-content: center;
+                gap: 20px;
             }
 
             .form-row {
@@ -192,7 +302,50 @@
             }
 
             .posts-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 3px;
+            }
+
+            .profile-name {
+                font-size: 1.5rem;
+            }
+
+            .profile-tabs {
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .posts-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2px;
+            }
+
+            .profile-container {
+                padding: 0 10px;
+            }
+
+            .profile-header {
+                padding: 15px;
+            }
+
+            .profile-picture {
+                width: 100px;
+                height: 100px;
+            }
+
+            .profile-name {
+                font-size: 1.3rem;
+            }
+
+            .profile-stats {
+                gap: 15px;
+                font-size: 0.9rem;
+            }
+
+            .btn-edit {
+                padding: 8px 16px;
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -206,6 +359,7 @@
             <ul class="nav-menu">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="feed.html">Feed</a></li>
+                <li><a href="explore.html">Explore</a></li>
                 <li><a href="events.html">Events</a></li>
                 <li><a href="feedback.html">Feedback</a></li>
                 <li><a href="ideas.html">Ideas</a></li>
@@ -224,16 +378,18 @@
         <div id="success" class="success" style="display: none;"></div>
 
         <div class="profile-header">
-            <img id="profilePicture" src="images/default-avatar.png" alt="Profile Picture" class="profile-picture" onerror="this.src='https://via.placeholder.com/150?text=No+Image'">
+            <img id="profilePicture" src="https://via.placeholder.com/150?text=User" alt="Profile Picture" class="profile-picture" onerror="this.src='https://via.placeholder.com/150?text=User'">
             <div class="profile-info">
                 <h1 id="profileName" class="profile-name"></h1>
-                <div class="profile-details">
-                    <p><strong>Course:</strong> <span id="profileCourse"></span></p>
-                    <p><strong>Year:</strong> <span id="profileYear"></span></p>
-                    <p><strong>Member since:</strong> <span id="profileJoined"></span></p>
+                <div id="profileUsername" class="profile-username"></div>
+                <div class="profile-stats">
+                    <div class="profile-stat"><strong id="postCount">0</strong> posts</div>
+                    <div class="profile-stat"><strong id="followerCount">0</strong> followers</div>
+                    <div class="profile-stat"><strong id="followingCount">0</strong> following</div>
                 </div>
-                <div id="profileBio" class="profile-bio" style="display: none;"></div>
-                <p id="profileInterests" class="profile-interests" style="display: none;"></p>
+                <div id="profileBio" class="profile-bio"></div>
+                <div id="profileCourse" class="profile-course"></div>
+                <div id="profileInterests" class="profile-interests"></div>
                 <button class="btn-edit" onclick="toggleEditForm()">Edit Profile</button>
             </div>
         </div>
@@ -284,8 +440,24 @@
             </form>
         </div>
 
-        <h2 class="section-title">My Posts</h2>
-        <div id="postsContainer" class="posts-grid"></div>
+        <div class="profile-tabs">
+            <div class="profile-tab active" onclick="switchTab('posts')">
+                <span>📷</span> POSTS
+            </div>
+            <div class="profile-tab" onclick="switchTab('saved')">
+                <span>🔖</span> SAVED
+            </div>
+        </div>
+
+        <div id="postsTab">
+            <h2 class="section-title">My Posts</h2>
+            <div id="postsContainer" class="posts-grid"></div>
+        </div>
+
+        <div id="savedTab" style="display: none;">
+            <h2 class="section-title">Saved Posts</h2>
+            <div id="savedContainer" class="posts-grid"></div>
+        </div>
     </div>
 
     <script src="js/data.js"></script>
@@ -298,20 +470,35 @@
 
         function loadProfile() {
             const user = DB.findUserById(currentUser.id);
-            
+
             document.getElementById('profileName').textContent = `${user.firstName} ${user.lastName}`;
-            document.getElementById('profileCourse').textContent = user.course || 'Not specified';
-            document.getElementById('profileYear').textContent = user.yearOfStudy ? `${user.yearOfStudy} Year` : 'Not specified';
-            document.getElementById('profileJoined').textContent = new Date(user.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
-            
+            document.getElementById('profileUsername').textContent = `@${user.firstName.toLowerCase()}${user.lastName.toLowerCase()}`;
+
+            // Load stats
+            const posts = DB.getPosts().filter(p => p.userId === currentUser.id);
+            const followers = DB.getFollowers().filter(f => f.followingId === currentUser.id);
+            const following = DB.getFollowers().filter(f => f.followerId === currentUser.id);
+
+            document.getElementById('postCount').textContent = posts.length;
+            document.getElementById('followerCount').textContent = followers.length;
+            document.getElementById('followingCount').textContent = following.length;
+
+            // Profile details
             if (user.bio) {
                 document.getElementById('profileBio').textContent = user.bio;
-                document.getElementById('profileBio').style.display = 'block';
             }
-            
+
+            if (user.course) {
+                document.getElementById('profileCourse').textContent = `${user.course}${user.yearOfStudy ? ' • ' + user.yearOfStudy + ' Year' : ''}`;
+            }
+
             if (user.interests) {
-                document.getElementById('profileInterests').textContent = `Interests: ${user.interests}`;
-                document.getElementById('profileInterests').style.display = 'block';
+                document.getElementById('profileInterests').textContent = user.interests;
+            }
+
+            // Profile picture
+            if (user.profilePicture) {
+                document.getElementById('profilePicture').src = user.profilePicture;
             }
 
             // Fill edit form
@@ -323,6 +510,11 @@
             document.getElementById('interests').value = user.interests || '';
 
             // Load user's posts
+            loadUserPosts();
+            loadSavedPosts();
+        }
+
+        function loadUserPosts() {
             const posts = DB.getPosts().filter(p => p.userId === currentUser.id);
             const container = document.getElementById('postsContainer');
 
@@ -331,19 +523,66 @@
             } else {
                 container.innerHTML = posts.map(post => {
                     const likeCount = DB.getLikeCount(post.id);
+                    const commentCount = DB.getCommentsByPost(post.id).length;
                     return `
-                        <div class="post-card">
-                            <div class="post-content">
-                                <p class="post-caption">${post.caption || 'No caption'}</p>
-                                <div class="post-meta">
-                                    <span>${new Date(post.createdAt).toLocaleDateString()}</span>
-                                    <span>❤️ ${likeCount}</span>
+                        <div class="post-card" onclick="viewPost(${post.id})">
+                            ${post.imagePath ? `<img src="${post.imagePath}" alt="Post" class="post-image">` : '<div class="post-image" style="background: var(--background); display: flex; align-items: center; justify-content: center; color: var(--text-secondary);">No image</div>'}
+                            <div class="post-overlay">
+                                <div class="post-stats-overlay">
+                                    <div class="post-stat-item">❤️ ${likeCount}</div>
+                                    <div class="post-stat-item">💬 ${commentCount}</div>
                                 </div>
                             </div>
                         </div>
                     `;
                 }).join('');
             }
+        }
+
+        function loadSavedPosts() {
+            const savedPosts = DB.getSavedPostsByUser(currentUser.id);
+            const container = document.getElementById('savedContainer');
+
+            if (savedPosts.length === 0) {
+                container.innerHTML = '<div class="no-posts"><p>No saved posts yet. Save posts from the feed to see them here!</p></div>';
+            } else {
+                container.innerHTML = savedPosts.map(post => {
+                    const likeCount = DB.getLikeCount(post.id);
+                    const commentCount = DB.getCommentsByPost(post.id).length;
+                    const postUser = DB.findUserById(post.userId);
+                    return `
+                        <div class="post-card" onclick="viewPost(${post.id})">
+                            ${post.imagePath ? `<img src="${post.imagePath}" alt="Post" class="post-image">` : '<div class="post-image" style="background: var(--background); display: flex; align-items: center; justify-content: center; color: var(--text-secondary);">No image</div>'}
+                            <div class="post-overlay">
+                                <div class="post-stats-overlay">
+                                    <div class="post-stat-item">❤️ ${likeCount}</div>
+                                    <div class="post-stat-item">💬 ${commentCount}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+
+        function switchTab(tab) {
+            // Update tab styles
+            document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
+            event.target.closest('.profile-tab').classList.add('active');
+
+            // Show/hide content
+            if (tab === 'posts') {
+                document.getElementById('postsTab').style.display = 'block';
+                document.getElementById('savedTab').style.display = 'none';
+            } else {
+                document.getElementById('postsTab').style.display = 'none';
+                document.getElementById('savedTab').style.display = 'block';
+            }
+        }
+
+        function viewPost(postId) {
+            // For now, redirect to feed with post ID
+            window.location.href = `feed.html?post=${postId}`;
         }
 
         function toggleEditForm() {

@@ -13,9 +13,27 @@
             <div class="nav-logo">
                 <a href="index.html">UniConnect</a>
             </div>
+            <div class="nav-search">
+                <input type="text" id="searchInput" placeholder="Search users, posts, hashtags..." onkeyup="handleSearch(event)">
+                <div id="searchResults" class="search-results"></div>
+            </div>
+            <div class="nav-notifications">
+                <button class="notification-btn" onclick="toggleNotifications()">
+                    🔔
+                    <span class="notification-badge" id="notificationBadge"></span>
+                </button>
+                <div class="notifications-panel" id="notificationsPanel">
+                    <div class="notifications-header">
+                        <h3>Notifications</h3>
+                        <button class="mark-read-btn" onclick="markAllRead()">Mark all as read</button>
+                    </div>
+                    <div class="notifications-list" id="notificationsList"></div>
+                </div>
+            </div>
             <ul class="nav-menu">
                 <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="feed.html">Feed</a></li>
+                <li><a href="explore.html">Explore</a></li>
                 <li><a href="events.html">Events</a></li>
                 <li><a href="feedback.html">Feedback</a></li>
                 <li><a href="ideas.html">Ideas</a></li>

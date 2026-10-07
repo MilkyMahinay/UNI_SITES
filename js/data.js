@@ -12,12 +12,54 @@ const DB = {
                     password: 'admin123',
                     firstName: 'Admin',
                     lastName: 'User',
-                    profilePicture: 'default-avatar.png',
+                    profilePicture: 'https://via.placeholder.com/150?text=Admin',
                     course: '',
                     yearOfStudy: '',
                     bio: 'System Administrator',
                     interests: '',
                     isAdmin: true,
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 2,
+                    email: 'alex@university.edu',
+                    password: 'alex123',
+                    firstName: 'Alex',
+                    lastName: 'Johnson',
+                    profilePicture: 'https://via.placeholder.com/150?text=Alex',
+                    course: 'Computer Science',
+                    yearOfStudy: '3',
+                    bio: 'Passionate about coding and campus life',
+                    interests: 'Technology, Sports, Music',
+                    isAdmin: false,
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 3,
+                    email: 'sarah@university.edu',
+                    password: 'sarah123',
+                    firstName: 'Sarah',
+                    lastName: 'Williams',
+                    profilePicture: 'https://via.placeholder.com/150?text=Sarah',
+                    course: 'Business Administration',
+                    yearOfStudy: '2',
+                    bio: 'Business student with a love for photography',
+                    interests: 'Photography, Travel, Marketing',
+                    isAdmin: false,
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 4,
+                    email: 'john@university.edu',
+                    password: 'john123',
+                    firstName: 'John',
+                    lastName: 'Davis',
+                    profilePicture: 'https://via.placeholder.com/150?text=John',
+                    course: 'Engineering',
+                    yearOfStudy: '4',
+                    bio: 'Engineering student and campus event organizer',
+                    interests: 'Engineering, Events, Leadership',
+                    isAdmin: false,
                     createdAt: new Date().toISOString()
                 }
             ];
@@ -26,6 +68,174 @@ const DB = {
 
         if (!localStorage.getItem('posts')) {
             localStorage.setItem('posts', JSON.stringify([]));
+        }
+
+        // Add sample posts if posts array is empty
+        const posts = JSON.parse(localStorage.getItem('posts') || '[]');
+        if (posts.length === 0 && !localStorage.getItem('sampleDataAdded')) {
+            const samplePosts = [
+                {
+                    id: 1001,
+                    userId: 2,
+                    caption: 'Beautiful sunset on campus today! #campuslife #sunset',
+                    imagePath: [
+                        'https://picsum.photos/600/600?random=1',
+                        'https://picsum.photos/600/600?random=2',
+                        'https://picsum.photos/600/600?random=3'
+                    ],
+                    createdAt: new Date(Date.now() - 86400000).toISOString()
+                },
+                {
+                    id: 1002,
+                    userId: 3,
+                    caption: 'Study session at the library with friends. Great vibes! #study #library',
+                    imagePath: [
+                        'https://picsum.photos/600/600?random=4',
+                        'https://picsum.photos/600/600?random=5'
+                    ],
+                    createdAt: new Date(Date.now() - 172800000).toISOString()
+                },
+                {
+                    id: 1003,
+                    userId: 4,
+                    caption: 'Campus event was amazing! So many people showed up. #events #community',
+                    imagePath: 'https://picsum.photos/600/600?random=6',
+                    createdAt: new Date(Date.now() - 259200000).toISOString()
+                }
+            ];
+            localStorage.setItem('posts', JSON.stringify(samplePosts));
+
+            // Add sample comments
+            const sampleComments = [
+                {
+                    id: 2001,
+                    userId: 3,
+                    postId: 1001,
+                    ideaId: null,
+                    commentText: 'Amazing shot! The colors are incredible.',
+                    createdAt: new Date(Date.now() - 80000000).toISOString()
+                },
+                {
+                    id: 2002,
+                    userId: 4,
+                    postId: 1001,
+                    ideaId: null,
+                    commentText: 'I was there too! Beautiful evening.',
+                    createdAt: new Date(Date.now() - 70000000).toISOString()
+                },
+                {
+                    id: 2003,
+                    userId: 2,
+                    postId: 1002,
+                    ideaId: null,
+                    commentText: 'Library is the best place to study! 👍',
+                    createdAt: new Date(Date.now() - 160000000).toISOString()
+                }
+            ];
+            localStorage.setItem('comments', JSON.stringify(sampleComments));
+
+            // Add sample likes
+            const sampleLikes = [
+                {
+                    id: 3001,
+                    postId: 1001,
+                    userId: 1,
+                    likedAt: new Date(Date.now() - 85000000).toISOString()
+                },
+                {
+                    id: 3002,
+                    postId: 1001,
+                    userId: 4,
+                    likedAt: new Date(Date.now() - 82000000).toISOString()
+                },
+                {
+                    id: 3003,
+                    postId: 1002,
+                    userId: 1,
+                    likedAt: new Date(Date.now() - 170000000).toISOString()
+                },
+                {
+                    id: 3004,
+                    postId: 1003,
+                    userId: 2,
+                    likedAt: new Date(Date.now() - 260000000).toISOString()
+                }
+            ];
+            localStorage.setItem('likes', JSON.stringify(sampleLikes));
+
+            // Add sample follow relationships
+            const sampleFollows = [
+                {
+                    id: 4001,
+                    followerId: 1,
+                    followingId: 2,
+                    followedAt: new Date(Date.now() - 500000000).toISOString()
+                },
+                {
+                    id: 4002,
+                    followerId: 1,
+                    followingId: 3,
+                    followedAt: new Date(Date.now() - 400000000).toISOString()
+                },
+                {
+                    id: 4003,
+                    followerId: 2,
+                    followingId: 3,
+                    followedAt: new Date(Date.now() - 300000000).toISOString()
+                },
+                {
+                    id: 4004,
+                    followerId: 3,
+                    followingId: 2,
+                    followedAt: new Date(Date.now() - 200000000).toISOString()
+                },
+                {
+                    id: 4005,
+                    followerId: 4,
+                    followingId: 2,
+                    followedAt: new Date(Date.now() - 100000000).toISOString()
+                }
+            ];
+            localStorage.setItem('followers', JSON.stringify(sampleFollows));
+
+            // Add sample notifications
+            const sampleNotifications = [
+                {
+                    id: 5001,
+                    userId: 1,
+                    type: 'like',
+                    message: 'Alex liked your post',
+                    createdAt: new Date(Date.now() - 3600000).toISOString(),
+                    read: false
+                },
+                {
+                    id: 5002,
+                    userId: 1,
+                    type: 'comment',
+                    message: 'Sarah commented on your post',
+                    createdAt: new Date(Date.now() - 7200000).toISOString(),
+                    read: false
+                },
+                {
+                    id: 5003,
+                    userId: 1,
+                    type: 'follow',
+                    message: 'John started following you',
+                    createdAt: new Date(Date.now() - 86400000).toISOString(),
+                    read: true
+                },
+                {
+                    id: 5004,
+                    userId: 1,
+                    type: 'event',
+                    message: 'You have a new university event',
+                    createdAt: new Date(Date.now() - 172800000).toISOString(),
+                    read: true
+                }
+            ];
+            localStorage.setItem('notifications', JSON.stringify(sampleNotifications));
+
+            localStorage.setItem('sampleDataAdded', 'true');
         }
 
         if (!localStorage.getItem('events')) {
@@ -55,6 +265,20 @@ const DB = {
         if (!localStorage.getItem('ideaVotes')) {
             localStorage.setItem('ideaVotes', JSON.stringify([]));
         }
+
+        if (!localStorage.getItem('savedPosts')) {
+            localStorage.setItem('savedPosts', JSON.stringify([]));
+        }
+
+        if (!localStorage.getItem('followers')) {
+            localStorage.setItem('followers', JSON.stringify([]));
+        }
+
+        if (!localStorage.getItem('notifications')) {
+            localStorage.setItem('notifications', JSON.stringify([]));
+        }
+
+
     },
 
     // Helper functions
@@ -128,6 +352,30 @@ const DB = {
 
     saveIdeaVotes(votes) {
         localStorage.setItem('ideaVotes', JSON.stringify(votes));
+    },
+
+    getSavedPosts() {
+        return JSON.parse(localStorage.getItem('savedPosts') || '[]');
+    },
+
+    saveSavedPosts(savedPosts) {
+        localStorage.setItem('savedPosts', JSON.stringify(savedPosts));
+    },
+
+    getFollowers() {
+        return JSON.parse(localStorage.getItem('followers') || '[]');
+    },
+
+    saveFollowers(followers) {
+        localStorage.setItem('followers', JSON.stringify(followers));
+    },
+
+    getNotifications() {
+        return JSON.parse(localStorage.getItem('notifications') || '[]');
+    },
+
+    saveNotifications(notifications) {
+        localStorage.setItem('notifications', JSON.stringify(notifications));
     },
 
     // User operations
@@ -375,6 +623,109 @@ const DB = {
         return likes.filter(l => l.postId === postId).length;
     },
 
+    // Save/Bookmark operations
+    toggleSave(postId, userId) {
+        const savedPosts = this.getSavedPosts();
+        const existing = savedPosts.find(s => s.postId === postId && s.userId === userId);
+
+        if (existing) {
+            // Unsave
+            const newSavedPosts = savedPosts.filter(s => s.id !== existing.id);
+            this.saveSavedPosts(newSavedPosts);
+            return false;
+        } else {
+            // Save
+            const newSavedPost = {
+                id: Date.now(),
+                postId,
+                userId,
+                savedAt: new Date().toISOString()
+            };
+            savedPosts.push(newSavedPost);
+            this.saveSavedPosts(savedPosts);
+            return true;
+        }
+    },
+
+    hasUserSavedPost(postId, userId) {
+        const savedPosts = this.getSavedPosts();
+        return savedPosts.some(s => s.postId === postId && s.userId === userId);
+    },
+
+    getSavedPostsByUser(userId) {
+        const savedPosts = this.getSavedPosts();
+        const posts = this.getPosts();
+        const userSavedPosts = savedPosts.filter(s => s.userId === userId);
+        return userSavedPosts.map(s => posts.find(p => p.id === s.postId)).filter(p => p);
+    },
+
+    // Follow system operations
+    toggleFollow(followerId, followingId) {
+        const followers = this.getFollowers();
+        const existing = followers.find(f => f.followerId === followerId && f.followingId === followingId);
+
+        if (existing) {
+            // Unfollow
+            const newFollowers = followers.filter(f => f.id !== existing.id);
+            this.saveFollowers(newFollowers);
+            return false;
+        } else {
+            // Follow
+            const newFollow = {
+                id: Date.now(),
+                followerId,
+                followingId,
+                followedAt: new Date().toISOString()
+            };
+            followers.push(newFollow);
+            this.saveFollowers(followers);
+            return true;
+        }
+    },
+
+    isFollowing(followerId, followingId) {
+        const followers = this.getFollowers();
+        return followers.some(f => f.followerId === followerId && f.followingId === followingId);
+    },
+
+    // Notification operations
+    createNotification(notificationData) {
+        const notifications = this.getNotifications();
+        const newNotification = {
+            id: Date.now(),
+            ...notificationData,
+            read: false,
+            createdAt: new Date().toISOString()
+        };
+        notifications.unshift(newNotification);
+        this.saveNotifications(notifications);
+        return newNotification;
+    },
+
+    markNotificationAsRead(notificationId) {
+        const notifications = this.getNotifications();
+        const index = notifications.findIndex(n => n.id === notificationId);
+        if (index !== -1) {
+            notifications[index].read = true;
+            this.saveNotifications(notifications);
+        }
+    },
+
+    markAllNotificationsAsRead(userId) {
+        const notifications = this.getNotifications();
+        notifications.forEach(n => {
+            if (n.userId === userId) {
+                n.read = true;
+            }
+        });
+        this.saveNotifications(notifications);
+    },
+
+    getUnreadNotifications(userId) {
+        const notifications = this.getNotifications();
+        return notifications.filter(n => n.userId === userId && !n.read);
+    },
+
     // Statistics
     getStats() {
         return {
@@ -390,3 +741,6 @@ const DB = {
 
 // Initialize database on load
 DB.init();
+
+// Uncomment the line below to reset all data (for testing)
+// localStorage.clear(); DB.init();
